@@ -1,0 +1,21 @@
+global:
+  resolve_timeout: 5m
+
+route:
+  group_by: ['alertname']
+  group_wait: 10s
+  group_interval: 1m
+  repeat_interval: 1h
+  receiver: 'dingtalk'
+  routes:
+    - receiver: 'feishu'
+      match:
+        severity: 'critical'
+
+receivers:
+  - name: 'dingtalk'
+    webhook_configs:
+      - url: 'http://dingtalk-webhook:5000/dingtalk/send'
+  - name: 'feishu'
+    webhook_configs:
+      - url: 'http://feishu-webhook:5001/feishu/send' 

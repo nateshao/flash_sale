@@ -1,0 +1,5 @@
+apiVersion: v2
+name: seckill-service
+version: 0.1.0
+description: 高并发秒杀服务的K8s Helm Chart
+appVersion: "1.0.0" 

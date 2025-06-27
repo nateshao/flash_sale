@@ -17,4 +17,7 @@ hpa:
   enabled: true
   minReplicas: 2
   maxReplicas: 20
-  targetCPUUtilizationPercentage: 60 
+  targetCPUUtilizationPercentage: 60
+ingress:
+  enabled: false
+  host: seckill.local 

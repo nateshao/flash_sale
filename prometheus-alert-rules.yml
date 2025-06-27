@@ -1,0 +1,29 @@
+groups:
+  - name: seckill-alerts
+    rules:
+      - alert: HighErrorRate
+        expr: sum(rate(http_server_requests_seconds_count{status!~"2.."}[1m])) by (instance) / sum(rate(http_server_requests_seconds_count[1m])) by (instance) > 0.05
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "高错误率告警"
+          description: "{{ $labels.instance }} 1分钟内错误率超过5%"
+
+      - alert: HighLatency
+        expr: histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket[1m])) by (le, instance)) > 1
+        for: 1m
+        labels:
+          severity: warning
+        annotations:
+          summary: "高延迟告警"
+          description: "{{ $labels.instance }} 95分位响应时间超过1秒"
+
+      - alert: HighQPS
+        expr: sum(rate(http_server_requests_seconds_count[1m])) by (instance) > 10000
+        for: 1m
+        labels:
+          severity: info
+        annotations:
+          summary: "高QPS告警"
+          description: "{{ $labels.instance }} QPS 超过 10000" 

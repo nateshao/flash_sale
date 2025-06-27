@@ -5,6 +5,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.stereotype.Service;
+import java.util.concurrent.TimeUnit;
 
 @Service
 @RequiredArgsConstructor
@@ -14,9 +15,15 @@ public class SeckillServiceImpl implements SeckillService {
     private static final String STOCK_KEY = "seckill:stock:";
     private static final String BLOOM_KEY = "seckill:bloom";
     private static final String ORDER_TOPIC = "seckill-order";
+    private static final String IDEMPOTENT_KEY = "seckill:idempotent:";
 
     @Override
     public String seckill(Long userId, Long skuId) {
+        String idempotentKey = IDEMPOTENT_KEY + userId + ":" + skuId;
+        Boolean success = redisTemplate.opsForValue().setIfAbsent(idempotentKey, "1", 5, TimeUnit.MINUTES);
+        if (Boolean.FALSE.equals(success)) {
+            return "请勿重复下单";
+        }
         // 1. 布隆过滤器判断商品是否存在（伪代码，实际用Redis或Guava实现）
         Boolean mightExist = redisTemplate.opsForValue().getBit(BLOOM_KEY, skuId);
         if (mightExist == null || !mightExist) {

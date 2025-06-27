@@ -34,3 +34,39 @@ services:
       - "3306:3306"
     restart: always
     command: --default-authentication-plugin=mysql_native_password 
+
+  skywalking-oap:
+    image: apache/skywalking-oap-server:9.0.0
+    ports:
+      - "11800:11800"
+      - "12800:12800"
+    restart: always
+
+  skywalking-ui:
+    image: apache/skywalking-ui:9.0.0
+    ports:
+      - "8088:8080"
+    environment:
+      SW_OAP_ADDRESS: http://skywalking-oap:12800
+    depends_on:
+      - skywalking-oap
+    restart: always
+
+  loki:
+    image: grafana/loki:2.8.2
+    ports:
+      - "3100:3100"
+    restart: always
+
+  promtail:
+    image: grafana/promtail:2.8.2
+    volumes:
+      - ./logs:/var/log
+      - ./promtail-config.yml:/etc/promtail/config.yml
+    restart: always
+
+  sentinel-dashboard:
+    image: bladex/sentinel-dashboard
+    ports:
+      - "8858:8858"
+    restart: always 

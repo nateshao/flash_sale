@@ -1,0 +1,55 @@
+{
+  "dashboard": {
+    "id": null,
+    "title": "Seckill System Overview",
+    "panels": [
+      {
+        "type": "graph",
+        "title": "QPS",
+        "targets": [
+          {"expr": "rate(http_server_requests_seconds_count[1m])", "legendFormat": "QPS"}
+        ],
+        "datasource": "Prometheus",
+        "gridPos": {"x": 0, "y": 0, "w": 12, "h": 6}
+      },
+      {
+        "type": "graph",
+        "title": "响应时间 (ms)",
+        "targets": [
+          {"expr": "histogram_quantile(0.95, sum(rate(http_server_requests_seconds_bucket[1m])) by (le)) * 1000", "legendFormat": "P95"}
+        ],
+        "datasource": "Prometheus",
+        "gridPos": {"x": 12, "y": 0, "w": 12, "h": 6}
+      },
+      {
+        "type": "graph",
+        "title": "JVM Heap Used",
+        "targets": [
+          {"expr": "jvm_memory_used_bytes{area=\"heap\"}", "legendFormat": "Heap Used"}
+        ],
+        "datasource": "Prometheus",
+        "gridPos": {"x": 0, "y": 6, "w": 12, "h": 6}
+      },
+      {
+        "type": "graph",
+        "title": "Redis QPS",
+        "targets": [
+          {"expr": "rate(redis_commands_processed_total[1m])", "legendFormat": "Redis QPS"}
+        ],
+        "datasource": "Prometheus",
+        "gridPos": {"x": 12, "y": 6, "w": 12, "h": 6}
+      },
+      {
+        "type": "graph",
+        "title": "Kafka 消息速率",
+        "targets": [
+          {"expr": "rate(kafka_server_brokertopicmetrics_messages_in_total[1m])", "legendFormat": "Kafka In"}
+        ],
+        "datasource": "Prometheus",
+        "gridPos": {"x": 0, "y": 12, "w": 12, "h": 6}
+      }
+    ],
+    "schemaVersion": 30,
+    "version": 1
+  }
+} 

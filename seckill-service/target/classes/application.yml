@@ -57,4 +57,10 @@ spring:
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml
-  type-aliases-package: com.flashsale.entity 
+  type-aliases-package: com.flashsale.entity
+
+# 灰度发布相关配置示例
+feature:
+  gray-release:
+    enabled: true
+    gray-users: 1001,1002,1003 

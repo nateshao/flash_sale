@@ -1,0 +1,19 @@
+# Java
+/target/
+*.iml
+*.class
+
+# IDE
+.idea/
+*.log
+*.swp
+
+# OS
+.DS_Store
+
+# Database
+*.sql
+*.db
+
+# Others
+.env 

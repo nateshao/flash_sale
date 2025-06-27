@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.flashsale.mapper.OrderMsgMapper">
+    <insert id="insert" parameterType="com.flashsale.entity.OrderMsg">
+        INSERT INTO seckill_order_msg(user_id, sku_id, status, create_time)
+        VALUES(#{userId}, #{skuId}, #{status}, #{createTime})
+    </insert>
+    <select id="selectUnsent" resultType="com.flashsale.entity.OrderMsg">
+        SELECT * FROM seckill_order_msg WHERE status = 0 LIMIT 100
+    </select>
+    <update id="markSent">
+        UPDATE seckill_order_msg SET status = 1 WHERE id = #{id}
+    </update>
+</mapper> 

@@ -1,0 +1,18 @@
+[
+  {
+    "resource": "seckillHot",
+    "limitApp": "default",
+    "grade": 1,
+    "count": 1000,
+    "strategy": 0,
+    "controlBehavior": 0,
+    "paramFlowItemList": [
+      {
+        "parseStrategy": 2,
+        "fieldName": "skuId",
+        "pattern": "1",
+        "count": 100
+      }
+    ]
+  }
+] 
